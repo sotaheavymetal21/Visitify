@@ -62,7 +62,7 @@ ROOT_URLCONF = "Visitify.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -129,7 +129,9 @@ STATICFILES_DIRS = [BASE_DIR / "statics" ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MEDIA_URL = '/image/'
+MEDIA_URL = "/image/"
 MEDIA_ROOT = BASE_DIR / "images"
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = "auth.User"
+
+LOGIN_URL = "account:login"
