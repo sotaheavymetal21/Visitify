@@ -1,2 +1,5 @@
 .env
 __pycache__
+visitifyenv
+Brewfile
+db.sqlite3
