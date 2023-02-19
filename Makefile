@@ -10,6 +10,9 @@ makemigrations:
 migrate:
 	$(RUN_DJANGO) migrate
 
+showmigrations:
+	$(RUN_DJANGO) showmigrations
+
 show_urls:
 	$(RUN_DJANGO) show_urls
 
