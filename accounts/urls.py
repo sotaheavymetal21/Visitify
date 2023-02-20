@@ -1,9 +1,8 @@
 # path関数をインポート
 from django.urls import path
-from .views import login_view, login_api
+from .views import login_view
 
 
 urlpatterns = [
   path("login/", login_view, name="login"),
-  path('api/login/', login_api, name='login_api'),
 ]
