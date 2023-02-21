@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <a href="{% url 'login' %}">Sign in</a>
+  <a href="{% url 'logout' %}">Log out</a>
   <h2>新規登録画面</h2>
   <form method="post">
     {% csrf_token %}
