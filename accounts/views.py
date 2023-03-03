@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from .models import UserProfile
+from .forms import UserProfileForm
 from .forms import UserCreateForm
 
 
@@ -30,3 +32,22 @@ def signup(request):
     else:
         form = UserCreateForm()
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def profile_view(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {'user_profile': user_profile}
+    return render(request, 'profile.html', context)
+
+@login_required
+def profile_edit_view(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=user_profile)
+    context = {'form': form}
+    return render(request, 'profile_edit.html', context)
