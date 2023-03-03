@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <a href="{% url 'login' %}">Sign in</a>
-  <a href="{% url 'home' %}">Home</a>
-
-  <h2>新規登録画面</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Sign up</button>
-  </form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2 class="text-center">Sign up</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button type="submit" class="btn btn-primary btn-block mt-3">Sign up</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
