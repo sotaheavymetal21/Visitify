@@ -134,4 +134,5 @@ MEDIA_ROOT = BASE_DIR / "images"
 
 AUTH_USER_MODEL = "auth.User"
 
+
 LOGIN_URL = "account:login"
