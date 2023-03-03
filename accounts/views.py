@@ -3,44 +3,50 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import UserProfile
-from .forms import UserProfileForm
-from .forms import UserCreateForm
+from .forms import UserProfileForm, UserCreateForm
 
 
-@login_required
 def home(request):
     return render(request, 'home.html')
 
-
+@login_required
 def user_logout(request):
     logout(request) # ログアウト処理を行うため、logout()関数を呼び出す
     return redirect('home') # ログアウト後にリダイレクトするため、redirect()関数を呼び出す
 
+
 def signup(request):
     if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.bio = form.cleaned_data.get('bio')
-            user.profile.location = form.cleaned_data.get('location')
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
+        user_form = UserCreateForm(request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            # Userモデルの登録
+            user = user_form.save()
+            # UserProfileモデルの登録
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            # ログイン処理
+            raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('login')
+            return redirect('profile')
     else:
-        form = UserCreateForm()
-    return render(request, 'signup.html', {'form': form})
+        user_form = UserCreateForm()
+        profile_form = UserProfileForm()
+    return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+
 
 @login_required
-def profile_view(request):
+def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     context = {'user_profile': user_profile}
     return render(request, 'profile.html', context)
 
 @login_required
-def profile_edit_view(request):
+def profile_edit(request):
     user_profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
