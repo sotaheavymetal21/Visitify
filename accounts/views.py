@@ -28,10 +28,27 @@ def signup(request):
             profile.save()
             # ログイン処理
             raw_password = user_form.cleaned_data.get('password1')
+            # ユーザーを認証する
+            user = authenticate(request, username=user.username, password=raw_password)
+            if user is not None:
+                login(request, user)
+                return redirect('profile')
+
+
+def signup(request):
+    if request.method == 'POST':
+        user_form = UserCreateForm(request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            # Userモデルの登録
+            user = user_form.save()
+            # UserProfileモデルの登録
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            # ログイン処理
+            raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
-            # user_profile = UserProfile()
-            # user_profile.user_id = user.id
-            # user_profile.save()
             login(request, user)
             return redirect('profile')
     else:
@@ -44,13 +61,13 @@ def signup(request):
 
 @login_required
 def profile(request):
-    user_profile = UserProfile.objects.get(user=request.user)
+    user_profile = User.objects.get(user=request.user)
     context = {'user_profile': user_profile}
     return render(request, 'profile.html', context)
 
 @login_required
 def profile_edit(request):
-    user_profile = UserProfile.objects.get(user=request.user)
+    user_profile = User.objects.get(user=request.user)
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
