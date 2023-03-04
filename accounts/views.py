@@ -29,6 +29,9 @@ def signup(request):
             # ログイン処理
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
+            # user_profile = UserProfile()
+            # user_profile.user_id = user.id
+            # user_profile.save()
             login(request, user)
             return redirect('profile')
     else:
