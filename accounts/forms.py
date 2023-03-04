@@ -24,3 +24,4 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['profile_image', 'introduction', 'website', 'occupation', 'skills', 'free_text']
+        labels = {"profile_image": "プロフィール画像","introduction": "自己紹介","website": "個人のウェブサイト","occupation": "職業","skills": "スキル","free_text": "自由記入欄",}
