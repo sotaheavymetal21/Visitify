@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
 class UserCreateForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, help_text='Required.')
-    last_name = forms.CharField(max_length=30, required=True, help_text='Required.')
+    first_name = forms.CharField(max_length=30, required=True, help_text='Required.', label="お名前(名)")
+    last_name = forms.CharField(max_length=30, required=True, help_text='Required.', label="お名前（姓）")
     email = forms.EmailField(required=True, help_text='必須です。', label='メールアドレス')
 
 

@@ -32,20 +32,16 @@ def signup(request):
         user_form = UserCreateForm(request.POST)
         profile_form = UserProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
-            # Userモデルの登録
+            # UserとUserProfileを一緒に保存する
             user = user_form.save(commit=False)
-            # パスワードをハッシュ化する
             user.password = make_password(user_form.cleaned_data.get('password1'))
-            try:
-                user.save()
-            except IntegrityError:
-                # ユーザー名またはメールアドレスが既に存在している場合、エラーを表示してフォームを再表示する
-                user_form.add_error(None, "ユーザー名またはメールアドレスが既に存在しています")
-                return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
-            # UserProfileモデルの登録
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+            user.profile_image = profile_form.cleaned_data.get('profile_image')
+            user.introduction = profile_form.cleaned_data.get('introduction')
+            user.website = profile_form.cleaned_data.get('website')
+            user.occupation = profile_form.cleaned_data.get('occupation')
+            user.skills = profile_form.cleaned_data.get('skills')
+            user.free_text = profile_form.cleaned_data.get('free_text')
+            user.save()
             # ログイン処理
             raw_password = user_form.cleaned_data.get('password1')
             # ユーザーを認証する
@@ -57,8 +53,6 @@ def signup(request):
         user_form = UserCreateForm()
         profile_form = UserProfileForm()
     return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
 
 
 

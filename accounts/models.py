@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.utils.text import slugify
 
 class User(AbstractUser):
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
@@ -21,5 +21,11 @@ class User(AbstractUser):
         blank=True,
         related_name="user_profiles"
     )
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = slugify(self.get_full_name() or self.username or self.email).replace('-', '')[:20]
+        super().save(*args, **kwargs)
+
     class Meta:
         db_table = "User"
