@@ -25,6 +25,8 @@ class CustomLoginView(LoginView):
 
 from django.contrib.auth.hashers import make_password
 
+from django.db.utils import IntegrityError
+
 def signup(request):
     if request.method == "POST":
         user_form = UserCreateForm(request.POST)
@@ -34,7 +36,12 @@ def signup(request):
             user = user_form.save(commit=False)
             # パスワードをハッシュ化する
             user.password = make_password(user_form.cleaned_data.get('password1'))
-            user.save()
+            try:
+                user.save()
+            except IntegrityError:
+                # ユーザー名またはメールアドレスが既に存在している場合、エラーを表示してフォームを再表示する
+                user_form.add_error(None, "ユーザー名またはメールアドレスが既に存在しています")
+                return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
             # UserProfileモデルの登録
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -50,7 +57,6 @@ def signup(request):
         user_form = UserCreateForm()
         profile_form = UserProfileForm()
     return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
-
 
 
 
