@@ -12,30 +12,55 @@
             <form method="post" enctype="multipart/form-data">
               {% csrf_token %}
               {{ user_form.non_field_errors }}
-              <div class="form-group">
+              <div class="form-group d-flex align-items-center">
                 {{ user_form.username.label_tag }}
                 {{ user_form.username }}
                 {{ user_form.username.errors }}
               </div>
-              <div class="form-group">
+              <div class="form-group d-flex align-items-center">
                 {{ user_form.email.label_tag }}
                 {{ user_form.email }}
                 {{ user_form.email.errors }}
               </div>
-              <div class="form-group">
+              <div class="form-group d-flex align-items-center">
                 {{ user_form.password1.label_tag }}
                 {{ user_form.password1 }}
                 {{ user_form.password1.errors }}
               </div>
-              <div class="form-group">
+              <div class="form-group d-flex align-items-center">
                 {{ user_form.password2.label_tag }}
                 {{ user_form.password2 }}
                 {{ user_form.password2.errors }}
               </div>
-              <div class="form-group">
-                {{ profile_form.avatar.label_tag }}
-                {{ profile_form.avatar }}
-                {{ profile_form.avatar.errors }}
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.profile_image.label_tag }}
+                {{ profile_form.profile_image }}
+                {{ profile_form.profile_image.errors }}
+              </div>
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.introduction.label_tag }}
+                {{ profile_form.introduction }}
+                {{ profile_form.introduction.errors }}
+              </div>
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.website.label_tag }}
+                {{ profile_form.website }}
+                {{ profile_form.website.errors }}
+              </div>
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.occupation.label_tag }}
+                {{ profile_form.occupation }}
+                {{ profile_form.occupation.errors }}
+              </div>
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.skills.label_tag }}
+                {{ profile_form.skills }}
+                {{ profile_form.skills.errors }}
+              </div>
+              <div class="form-group d-flex align-items-center">
+                {{ profile_form.free_text.label_tag }}
+                {{ profile_form.free_text }}
+                {{ profile_form.free_text.errors }}
               </div>
               <button type="submit" class="btn btn-primary btn-block mt-3">Sign up</button>
             </form>

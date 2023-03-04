@@ -1,8 +1,43 @@
-<h1>Profile</h1>
-<p>Profile image: <img src="{{ user_profile.profile_image.url }}" alt="profile image"></p>
-<p>Introduction: {{ user_profile.introduction }}</p>
-<p>Website: {{ user_profile.website }}</p>
-<p>Occupation: {{ user_profile.occupation }}</p>
-<p>Skills: {{ user_profile.skills }}</p>
-<p>Free text: {{ user_profile.free_text }}</p>
-<a
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="text-center mb-4">Profile</h2>
+            <div class="text-center mb-4">
+              <img src="{{ user_profile.profile_image.url }}" alt="profile image" class="rounded-circle" width="200">
+            </div>
+            <div class="form-group">
+              <label for="introduction">Introduction:</label>
+              <p class="form-control">{{ user_profile.introduction }}</p>
+            </div>
+            <div class="form-group">
+              <label for="website">Website:</label>
+              <p class="form-control">{{ user_profile.website }}</p>
+            </div>
+            <div class="form-group">
+              <label for="occupation">Occupation:</label>
+              <p class="form-control">{{ user_profile.occupation }}</p>
+            </div>
+            <div class="form-group">
+              <label for="skills">Skills:</label>
+              <p class="form-control">{{ user_profile.skills }}</p>
+            </div>
+            <div class="form-group">
+              <label for="free_text">Free text:</label>
+              <p class="form-control">{{ user_profile.free_text }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_css %}
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+{% endblock %}

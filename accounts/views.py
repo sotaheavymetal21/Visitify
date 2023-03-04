@@ -1,22 +1,30 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 from .models import User
 from .forms import UserProfileForm, UserCreateForm
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, "home.html")
 
 @login_required
 def user_logout(request):
     logout(request) # ログアウト処理を行うため、logout()関数を呼び出す
-    return redirect('home') # ログアウト後にリダイレクトするため、redirect()関数を呼び出す
+    return redirect("home") # ログアウト後にリダイレクトするため、redirect()関数を呼び出す
+
+
+
+class CustomLoginView(LoginView):
+    template_name = "login.html"
+    success_url = reverse_lazy("profile")
 
 
 def signup(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user_form = UserCreateForm(request.POST)
         profile_form = UserProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():

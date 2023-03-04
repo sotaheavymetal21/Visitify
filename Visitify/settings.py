@@ -130,9 +130,11 @@ STATICFILES_DIRS = [BASE_DIR / "statics" ]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/image/"
+
 MEDIA_ROOT = BASE_DIR / "images"
 
 AUTH_USER_MODEL = "auth.User"
 
-
 LOGIN_URL = "account:login"
+
+LOGIN_REDIRECT_URL = 'profile/'
