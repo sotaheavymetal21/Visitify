@@ -44,11 +44,8 @@ def signup(request):
             user.save()
             # ログイン処理
             raw_password = user_form.cleaned_data.get('password1')
-            # ユーザーを認証する
-            user = authenticate(request, username=user.username, password=raw_password)
-            if user is not None:
-                login(request, user)
-                return redirect('profile')
+            login(request, user)
+            return redirect('profile')
     else:
         user_form = UserCreateForm()
         profile_form = UserProfileForm()
@@ -60,6 +57,7 @@ def signup(request):
 def profile(request):
     user_profile = request.user
     context = {'user_profile': user_profile}
+    print(context)
     return render(request, 'profile.html', context)
 
 @login_required
